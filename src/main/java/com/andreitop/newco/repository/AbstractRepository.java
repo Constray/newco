@@ -10,9 +10,9 @@ public interface AbstractRepository<T extends AbstractDto> {
 
     T findById(final Long id);
 
-    void save(final T trip);
+    void save(final T object);
 
     void delete(final Long id);
 
-    void update(final T newDto);
+    void update(final T newObject);
 }

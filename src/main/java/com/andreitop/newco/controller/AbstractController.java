@@ -32,8 +32,8 @@ public abstract class AbstractController<T extends AbstractDto> {
 
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
-    public void create(@RequestBody final T trip) {
-        service.save(trip);
+    public void create(@RequestBody final T object) {
+        service.save(object);
     }
 
     @DeleteMapping("/{id}")
@@ -44,7 +44,7 @@ public abstract class AbstractController<T extends AbstractDto> {
 
     @PutMapping
     @ResponseStatus(HttpStatus.OK)
-    public void update(@RequestBody final T newTrip) {
-        service.update(newTrip);
+    public void update(@RequestBody final T newObject) {
+        service.update(newObject);
     }
 }

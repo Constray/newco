@@ -10,9 +10,9 @@ public interface AbstractService<T extends AbstractDto> {
 
     T findById(Long id);
 
-    void save(T trip);
+    void save(T object);
 
     void delete(Long id);
 
-    void update(T newTrip);
+    void update(T newObject);
 }
