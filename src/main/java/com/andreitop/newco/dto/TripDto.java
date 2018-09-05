@@ -1,5 +1,6 @@
 package com.andreitop.newco.dto;
 
+
 public class TripDto implements AbstractDto {
 
     private static final long serialVersionUID = 5914366185889783660L;
@@ -8,6 +9,15 @@ public class TripDto implements AbstractDto {
     private String origin;
     private String destination;
     private Integer price;
+
+    public TripDto(Long id, String origin, String destination, Integer price) {
+        setId(id);
+        setDestination(destination);
+        setOrigin(origin);
+        setPrice(price);
+    }
+
+    public TripDto() {}
 
     public Long getId() {
         return id;
