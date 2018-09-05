@@ -33,7 +33,7 @@ public class TripsControllerTest {
     private MockMvc mockMvc;
 
     @MockBean
-    private TripService tripService;
+    private TripService<TripDto> tripService;
 
     @Test
     public void whenPostTrip_thenCreateTrip() throws Exception {
