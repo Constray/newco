@@ -17,6 +17,8 @@ import static org.hamcrest.Matchers.is;
 import static org.mockito.BDDMockito.given;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.put;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.delete;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
@@ -26,14 +28,16 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 public class TripsControllerTest {
 
     private static final String TRIP_JSON = "{\"origin\": \"LED\" , \"destination\":\"MOW\", \"price\" : 12256}";
+    private static final String UPDATE_JSON = "{ \"id:\": 1, \"origin\": \"LED\" , \"destination\":\"MOW\", \"price\" : 1337}";
     private static final String CONTENT_TYPE = "application/json;charset=UTF-8";
     private static final String API_URL = ApiConstant.API_V_1 + "/trips";
+    private static final int DEFAULD_ID = 1;
 
     @Autowired
     private MockMvc mockMvc;
 
     @MockBean
-    private TripService<TripDto> tripService;
+    private TripService tripService;
 
     @Test
     public void whenPostTrip_thenCreateTrip() throws Exception {
@@ -63,5 +67,40 @@ public class TripsControllerTest {
                 .andExpect(jsonPath("$[0].origin", is("MOW")))
                 .andExpect(jsonPath("$[0].destination", is("LED")))
                 .andExpect(jsonPath("$[0].price", is(4232)));
+    }
+
+    @Test
+    public void givenTrip_whenGetTripById_thenReturnJson() throws Exception {
+
+        TripDto tripDto = new TripDto();
+        tripDto.setId(1L);
+        tripDto.setOrigin("MOW");
+        tripDto.setDestination("LED");
+        tripDto.setPrice(4232);
+
+        List<TripDto> allTrips = Collections.singletonList(tripDto);
+        given(tripService.findById(tripDto.getId())).willReturn(tripDto);
+
+        mockMvc.perform(get(API_URL + "/{id}", DEFAULD_ID))
+                .andExpect(status().isOk())
+                .andExpect(content().contentType(CONTENT_TYPE))
+                .andExpect(jsonPath("$.id", is(1)))
+                .andExpect(jsonPath("$.origin", is("MOW")))
+                .andExpect(jsonPath("$.destination", is("LED")))
+                .andExpect(jsonPath("$.price", is(4232)));
+    }
+
+    @Test
+    public void UpdateTrip() throws Exception {
+        mockMvc.perform(put(API_URL)
+                    .contentType(CONTENT_TYPE)
+                    .content(UPDATE_JSON))
+                    .andExpect(status().isOk());
+    }
+
+    @Test
+    public void DeleteTrip() throws Exception {
+        mockMvc.perform(delete(API_URL + "/{id}", DEFAULD_ID))
+                .andExpect(status().isNoContent());
     }
 }

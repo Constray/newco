@@ -1,4 +1,6 @@
 package com.andreitop.newco.dto;
 
-public interface AbstractDto {
+import java.io.Serializable;
+
+public interface AbstractDto  extends Serializable {
 }
