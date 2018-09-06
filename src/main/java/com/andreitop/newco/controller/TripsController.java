@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
 import java.util.List;
 
 @RestController
@@ -32,7 +33,7 @@ public class TripsController<T extends TripDto> extends AbstractController<T> {
 
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
-    public void create(@RequestBody final T object) {
+    public void create(@RequestBody @Valid final T object) {
         service.save(object);
     }
 
@@ -44,7 +45,7 @@ public class TripsController<T extends TripDto> extends AbstractController<T> {
 
     @PutMapping
     @ResponseStatus(HttpStatus.OK)
-    public void update(@RequestBody final T newObject) {
+    public void update(@RequestBody @Valid final T newObject) {
         service.update(newObject);
     }
 
