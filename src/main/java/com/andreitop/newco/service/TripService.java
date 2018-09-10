@@ -4,9 +4,12 @@ import com.andreitop.newco.dto.TripDto;
 import com.andreitop.newco.repository.TripRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
+import javax.transaction.Transactional;
 import java.util.List;
 
 @Service
+@Transactional
 public class TripService {
 
     private final TripRepository tripRepository;
@@ -21,7 +24,7 @@ public class TripService {
     }
 
     public TripDto findById(Long id) {
-        return tripRepository.findById(id);
+        return tripRepository.findById(id).orElse(null);
     }
 
     public void save(TripDto trip) {
@@ -29,10 +32,10 @@ public class TripService {
     }
 
     public void delete(Long id) {
-        tripRepository.delete(id);
+        tripRepository.deleteById(id);
     }
 
     public void update(TripDto newTrip) {
-        tripRepository.update(newTrip);
+        tripRepository.saveAndFlush(newTrip);
     }
 }
